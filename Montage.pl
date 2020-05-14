@@ -55,6 +55,12 @@ sum=0;sum2=\$$logr_index;count=1;if(\$$chr_index==lastChr){window+=slide}else{wi
 	    $command = "awk '{print \"chr\"\$2,\"numsnp=1 length=1 state2,cn=1\",\$1,\"startsnp=\"\$2,\"endsnp=\"\$2}' Candidates | awk -F'[. ]' '{print \$1\":\"\$2\"-\"\$2+1000000,\$3,\$4,\$5,\$6\".\"\$7\".\"\$8,\$9\"_\"\$2,\$11\"_\"\$2+1000000}' > Candidates.rawcnv";
 	     print LOG "$command\n";
             `$command`;
+	    $command="BafSdThresh=\$(sed 's/\\ /\\t/g' Count.5LowHigh_Sliding.txt | egrep -v 'X|Y' | ./datamash q3 8 iqr 8 | sed 's/\\t/+1.5*/' | bc -l);LrrAvgThresh=\$(sed 's/\\ /\\t/g' Count.5LowHigh_Sliding.txt | egrep -v 'X|Y' | ./datamash q3 7 iqr 7 | sed 's/\\t/+1.5*/' | bc -l); echo \$BafSdThresh \$LrrAvgThresh; awk -v b=\"\$BafSdThresh\" -v l=\"\$LrrAvgThresh\" '{if(\$8>b&&\$7>l)print}' Count.5LowHigh_Sliding.txt | egrep -v 'X|Y' > Candidates";
+	    print LOG "$command\n";
+            $o=`$command`;print LOG "$o";
+	    $command = "awk '{print \"chr\"\$2,\"numsnp=1 length=1 state5,cn=3\",\$1,\"startsnp=\"\$2,\"endsnp=\"\$2}' Candidates | awk -F'[. ]' '{print \$1\":\"\$2\"-\"\$2+1000000,\$3,\$4,\$5,\$6\".\"\$7\".\"\$8,\$9\"_\"\$2,\$11\"_\"\$2+1000000}' >> Candidates.rawcnv";
+	     print LOG "$command\n";
+            `$command`;
 		$command = "echo -e 'Name\\tChr\\tPos' > Header; awk '{ORS=\"\";temp=\$2;gsub(/\\./,\"_\",\$2);print \$2\"\\t\";gsub(/_/,\"\\t\",\$2);print \$2\"\\n\";gsub(/.*\\t/,\"\",\$2);gsub(/\\..*/,\"\",temp);print temp\"_\"\$2+1000000\"\\t\"temp\"\\t\"\$2+1000000\"\\n\";}' Count.5LowHigh_Sliding.txt | sort -u > Content; cat Header Content > signalfile";
 		print LOG "$command\n";
             `$command`;
