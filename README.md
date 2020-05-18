@@ -13,7 +13,8 @@ Name Chr Position sample1.B Allele Freq sample1.Log R Ratio … sampleN.B Allele
 rs1000000 12 126890980 0.9949 0.03895 … 0.0129 -0.08263  
 …  
 To derive from GenomeStudio FinalReport use FinalReportToBafLrr.pl  
-Name Chr Position B Allele Freq Log R Ratio sampleIDrs1000000 12 126890980 0.9949 0.03895 sample1  
+Name Chr Position B Allele Freq Log R Ratio sampleID  
+rs1000000 12 126890980 0.9949 0.03895 sample1  
 …  
 rs1000000 12 126890980 0.0129 -0.08263 sampleN  
 …  
