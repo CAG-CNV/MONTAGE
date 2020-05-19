@@ -39,7 +39,7 @@ while (<FAM>) {
                         }
                         print LOG "Indexes: $name_index\t$chr_index\t$pos_index\t$logr_index\t$b_index\n";
 
-        $command = "sed 's/\r//' $_ | grep -v REMOVE | sort -k$chr_index,$chr_index -k$pos_index,$pos_index"."n | awk '{if(\$$pos_index>0)print}' | awk -v OFS=\"\t\" -v ORS=\"\" 'BEGIN{window=1000000;slide=1000000;} {lastChr=chr; chr=\$$chr_index; lastMod=mod; mod=\$$pos_index%window; if(\$$pos_index<=window&&\$$chr_index==lastChr){count++}
+        $command = "grep -v Position $_ | sort -C -k2,2 -k3,3n; sorted=\$?; sed 's/\\r//' $_ | grep -v REMOVE | grep -v Position | if [ \$sorted == 0 ] ; then tee; else sort -k$chr_index,$chr_index -k$pos_index,$pos_index"."n; fi | awk '{if(\$$pos_index>0&&NF>=5)print}' | awk -v OFS=\"\t\" -v ORS=\"\" 'BEGIN{window=1000000;slide=1000000;} {lastChr=chr; chr=\$$chr_index; lastMod=mod; mod=\$$pos_index%window; if(\$$pos_index<=window&&\$$chr_index==lastChr){count++}
 else{sum2-=\$$logr_index;if(\$$b_index>=0.4&&\$$b_index<=0.6){sumMid--}else if(\$$b_index>=0.1&&\$$b_index<0.4){sumLow--}else if(\$$b_index>0.6&&\$$b_index<=0.9){sumHig--}else{sumHom--};sumBaf-=\$$b_index;sumsqBaf-=((\$$b_index)^2);if(\$$logr_index<-3){sumHomDel--}} 
 
 if(\$$b_index>=0.4&&\$$b_index<=0.6){sumMid++}else if(\$$b_index>=0.1&&\$$b_index<0.4){sumLow++}else if(\$$b_index>0.6&&\$$b_index<=0.9){sumHig++}else{sumHom++};sum2+=\$$logr_index;if(\$$b_index>=0.1&&\$$b_index<=0.9){sumBaf+=\$$b_index;sumsqBaf+=(\$$b_index)^2};array[mod]=\$$b_index;array2[mod]=\$$logr_index;diff=mod-lastMod;if(\$$logr_index<-3){sumHomDel++}}
