@@ -23,6 +23,6 @@ wget https://github.com/CAG-CNV/MONTAGE/archive/master.zip
 Unzip master.zip  
 Parallel Computing: Recommended, there are no between sample dependencies in this Mosaic CNV calling.  
 Output:  
-chr6:57000000-62000000        numsnp=4      length=5,000,001   state2,cn=1 6092196049_R03C02.int.csv startsnp=6_57000000 endsnp=6_62000000  
+chr11:84005844-134007108      numsnp=84     length=50,001,265  state2,cn=1 6184541022_R02C02.int.csv startsnp=11_84005844 endsnp=11_134007108  
 Use visualize_cnv.pl to plot the BAF/LRR underlying the Mosaic CNV call.  
 Use ParseCNV to conduct CNV association studies  
