@@ -57,11 +57,12 @@ sub combineSegment {
 	}
 	
 	while (<CNV>) {
-		if (m/^(?:chr)?(\w+):(\d+)-(\d+)\s+numsnp=(\d+)\s+length=(\S+)\s+state(\d),cn=(\d)\s+(.+?)\s+startsnp=(\S+)\s+endsnp=(\S+)/) {
+		if (m/^(?:chr)?(\w+):(\d+)-(\d+)\s+numsnp=(\d+)\s+length=(\S+)\s+state(\d),cn=([\-\.\deE]+)\s+(.+?)\s+startsnp=(\S+)\s+endsnp=(\S+)/) {
 			my ($curchr, $curstart, $curend, $curnumsnp, $curlength, $curstate, $curcn, $curfile, $cursnpstart, $cursnpend) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
 			my $curconf;
 			m/conf=([\-\.\deE]+)/ and $curconf=$1;
 			$curlength =~ s/,//g;
+			#$curcn =~ s/\..//; #1 decimal place
 			
 			defined $posindex->{$cursnpstart} and defined $posindex->{$cursnpend} or die "Error: the index for SNPs ($cursnpstart and $cursnpend) are not found from signalfile\n";
 			push @{$cnvcall{$curfile, $curchr}}, [$curstart, $curend, $posindex->{$cursnpstart}, $posindex->{$cursnpend}, $cursnpstart, $cursnpend, $curcn, $curconf];
@@ -84,7 +85,7 @@ sub combineSegment {
 		push @newcall, [@{$call[0]}];
 		for my $i (1 .. @call-1) {
 			my ($curstart, $curend, $curstartindex, $curendindex, $cursnpstart, $cursnpend, $curcn, $curconf) = @{$call[$i]};
-			if ($curcn eq $precn) {
+			if (substr($curcn,0,1) eq substr($precn,0,1)) {
 				if ($bp and ($curstart-$preend-2)/($curend-$prestart+1) <= $fraction or not $bp and ($curstartindex-$preendindex-1) / ($curendindex-$prestartindex+1) <= $fraction) {
 					if ($bp) {
 						#JG print STDERR "NOTICE: Merging chr$curchr:$prestart-$preend and chr$curchr:$curstart-$curend with base pair fraction=", sprintf("%.3f", ($curstart-$preend-1) / ($curend-$prestart)), " ($curstart-$preend-1) / ($curend-$prestart)\n";
