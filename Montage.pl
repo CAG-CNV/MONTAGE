@@ -37,6 +37,25 @@ for $z (0 .. @mapHeader-1)
 }
 open (FAM, $ARGV[0]) or die;
 open (LOG, ">$ARGV[0]"."_Montage.log");
+$filelist_or_signalHeaderLine = <FAM>;
+$filelist_or_signalHeaderLine =~ s/[\r\n]+$//;
+@filelist_or_signalHeader=split(/\t/,$filelist_or_signalHeaderLine);
+if($#filelist_or_signalHeader > 1)
+{
+	close(FAM);
+	open (FILELIST, ">$ARGV[0]"."_MontageInputFiles.txt");
+	for($countInputs=0;$countInputs<=$#ARGV;$countInputs++)
+	{
+		print FILELIST "$ARGV[$countInputs]\n";
+	}
+	close(FILELIST);
+	open(FAM, "$ARGV[0]"."_MontageInputFiles.txt");
+}
+else
+{
+	close(FAM);
+	open (FAM, $ARGV[0]);
+}
 while ($filename=<FAM>) {
 	$filename=~s/[\r\n]+$//;
 	#Check Column Order
