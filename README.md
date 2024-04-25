@@ -25,4 +25,6 @@ Parallel Computing: Recommended, there are no between sample dependencies in thi
 Output:  
 chr11:84005844-134007108      numsnp=84     length=50,001,265  state2,cn=1 6184541022_R02C02.int.csv startsnp=11_84005844 endsnp=11_134007108  
 Use visualize_cnv.pl to plot the BAF/LRR underlying the Mosaic CNV call.  
-Use ParseCNV to conduct CNV association studies  
+Use [ParseCNV](https://parsecnv.sourceforge.net/) or [ParseCNV2](https://github.com/CAG-CNV/ParseCNV2) to conduct CNV association studies  
+# Cite the Article  
+[Glessner, J.T., Chang, X., Liu, Y. et al. MONTAGE: a new tool for high-throughput detection of mosaic copy number variation. BMC Genomics 22, 133 (2021). https://doi.org/10.1186/s12864-021-07395-7](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-021-07395-7)
