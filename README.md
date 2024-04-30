@@ -6,6 +6,10 @@ A BafLrr SignalFile looks like this (column order is flexible):
 Name    Chr     Position        sample.B Allele Freq    sample.Log R Ratio  
 rs1000000       12      126890980       0.9949  0.03895  
 rs1000002       3       183635768       1       -0.3053  
+Note the input format is tab separated values, not comma separated values. The header is expected to be on the first line.  
+The input file should be tab separated, not comma separated.  
+For example, if you have comma separated values format and extra 10 header lines output by Illumina GenomeStudio exported Final Report, you can modify the file you have with this command:  
+sed 's/,/\t/g' test.csv | sed '1,10d' > test.int.tsv  
 # User Guide  
 Input: Single Sample BAF/LRR Signal Files  
 To derive from GenomeStudio Table use kcolumn.pl  
